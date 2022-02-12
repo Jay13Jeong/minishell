@@ -16,44 +16,44 @@
 # define SUCCESS 	    1
 # define FAIL           0
 # define ERROR          -1
-# define STDIN_BACKUP 	420
-# define STDOUT_BACKUP  421
-# define SKY            "\001\033[1;36m\002"
-# define WHITE          "\001\033[0m\002"
-# define STDIN 			0
-# define STDOUT 		1
-# define STDERR 		2
+# define STDIN_BACKUP 	420 //표준입력fd의 백업fd번호
+# define STDOUT_BACKUP  421	//표준출력fd의 백업fd번호
+# define SKY            "\001\033[1;36m\002" //터미널의 글자색상을 하늘색으로 해주는 접두사
+# define WHITE          "\001\033[0m\002"	//터미널의 배경색을 흰색으로 해주는 접미사
+# define STDIN 			0	//표준입력
+# define STDOUT 		1	//표준출력
+# define STDERR 		2	//표준에러
 
-extern int	g_exit;
+extern int	g_exit; //프로세스의 종료상태를 담는 전역변수
 
-typedef struct s_token
+typedef struct s_token //띄어쓰기 혹은 유의미한 식별자를 기준으로 나눈 토큰
 {
-	char		*cmd;
-	char		redir_flag;
+	char		*cmd; //토큰의 문자열
+	char		redir_flag; //리다이렉션 플레그인지 여부 (맞으면 1, 아니면 0, 에러 -1)
 }				t_token;
 
-typedef struct s_linked_order
+typedef struct s_linked_order //파이프 기준으로나눈 명령들 (단방향 링크드리스트)
 {
-	t_token					*cmdline;
-	int						pipe_flag;
-	int						exit_flag;
-	int						right_flag;
-	char					quote;
-	char					*(redirect_filename[4]);
-	struct s_linked_order	*next;
+	t_token					*cmdline; //현재 파이프의 토큰들
+	int						pipe_flag; //다음 파이프 구간이 있으면 1 아니면 0
+	int						exit_flag; //전체명령중에 파이프가 없으면 1 아니면 0
+	int						right_flag; //오른쪽리다이렉션이면 1, 아니면 0, 에러 -1
+	char					*(redirect_filename[4]); /*최종 리다이렉션 기호와 대상을 담을 배열, 각 자리는
+	0:좌 리다이렉션 기호, 1:좌 리다이렉션 뒤의 토큰(대상), 2:우 리다이렉션 기호, 3:우 리다이렉션 뒤의 토큰(대상)*/
+	struct s_linked_order	*next; //다음 링크주소
 }				t_linked_order;
 
 typedef struct s_minishell
 {
-	char					**env;
-	int						len;
-	int						error;
-	char					**key;
-	char					**content;
-	struct s_linked_order	*lo;
+	char					**env; //메인에서 받아온 환경변수 리스트
+	int						len; //환경변수 리스트 길이
+	int						error; //따옴표 인식 오류 1 정상 0
+	char					**key; //동적할당된 환경변수 키 리스트
+	char					**content; //동적할당된 환경변수 값 리스트
+	struct s_linked_order	*lo; //명령 링크드리스트
 }				t_minishell;
 
-typedef struct s_gss
+typedef struct s_gss //파싱용 구조체1
 {
 	int	cnt;
 	int	begin;
@@ -62,7 +62,7 @@ typedef struct s_gss
 	int	len;
 }	t_gss;
 
-typedef struct s_parse
+typedef struct s_parse //파싱용 구조체2
 {
 	int	m;
 	int	c;

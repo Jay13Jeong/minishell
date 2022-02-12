@@ -2,8 +2,8 @@ CC 				= gcc
 RM				= rm -rf
 CFLAGS 			= -Wall -Wextra -Werror
 NAME 			= minishell
-READLINE_LIB 	= -lreadline -L/Users/jjeong/.brew/opt/readline/lib
-READLINE_INC	= -I/Users/jjeong/.brew/opt/readline/include
+READLINE_LIB 	= -lreadline -L/opt/homebrew/opt/readline/lib
+READLINE_INC	= -I/opt/homebrew/opt/readline/include
 LIBFT		= libft.a
 LIBFT_DIR	= libft
 
