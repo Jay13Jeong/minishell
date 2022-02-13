@@ -1,5 +1,6 @@
 #include "../includes/minishell.h"
 
+//출력함수 (-nasd -nwwe 패치 필요)
 void	write_args(t_token *token, int option_n, int fd_out)
 {
 	int	i;
@@ -22,6 +23,7 @@ void	write_args(t_token *token, int option_n, int fd_out)
 	}
 }
 
+//echo
 int	mini_echo(t_minishell *mini, int fd_out)
 {
 	int	option_n;

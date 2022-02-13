@@ -1,15 +1,16 @@
 #include "../includes/minishell.h"
 
-void	alert_extern_error(char *cmd, char *key)
-{
-	ft_putstr_fd("minishell: ", STDOUT);
-	ft_putstr_fd(cmd, STDOUT);
-	ft_putstr_fd(": `", STDOUT);
-	ft_putstr_fd(key, STDOUT);
-	ft_putendl_fd("': not a valid identifier", STDOUT);
-	g_exit = 1;
-}
+// void	alert_extern_error(char *cmd, char *key)
+// {
+// 	ft_putstr_fd("minishell: ", STDOUT);
+// 	ft_putstr_fd(cmd, STDOUT);
+// 	ft_putstr_fd(": `", STDOUT);
+// 	ft_putstr_fd(key, STDOUT);
+// 	ft_putendl_fd("': not a valid identifier", STDOUT);
+// 	g_exit = 1;
+// }
 
+//실행 할 명령의 인자의 수를 카운트하는 함수
 int	count_args(t_token *token)
 {
 	int			i;
@@ -20,20 +21,23 @@ int	count_args(t_token *token)
 	return (i);
 }
 
+//동적할당 된 인자목록을 해제하고 실행상태를 exit함수로 반환하면서 종료 
 void	exit_process(t_minishell *mini, char **extern_argv, int exit_code)
 {
 	free(extern_argv);
 	exit_clean(mini, exit_code);
 }
 
+//매개변수의 자식프로세서가 exit될 때 까지 기다리고있다가 종료되면 그 상태를 전역변수에 업데이트하는 함수  
 void	wait_child_process(pid_t child_pid)
 {
 	int			status;
 
 	waitpid(child_pid, &status, 0);
-	g_exit = status >> 8;
+	g_exit = status >> 8; //status는 16비트로 이루어져있음 exit함수로 종료되었다면 함수의 매개변수가 앞의 8비트에 담김
 }
 
+//매개변수로 받은 경로의 명령을 실행하는 함수
 void	system_call_exec(t_minishell *mini, char *path, int *fds)
 {
 	pid_t	pid;
@@ -41,10 +45,10 @@ void	system_call_exec(t_minishell *mini, char *path, int *fds)
 	int		extern_len;
 	char	**extern_argv;
 
-	pid = fork();
-	if (pid == -1)
+	pid = fork(); //자식 프로세서 만들기 
+	if (pid == -1) //생성 오류 처리
 		exit_clean(mini, EXIT_FAILURE);
-	if (pid == 0)
+	if (pid == 0) //자식프로세서 일 떄
 	{
 		extern_len = count_args(mini->lo->cmdline);
 		extern_argv = (char **)malloc(sizeof(char *) * (extern_len + 1));
@@ -59,5 +63,5 @@ void	system_call_exec(t_minishell *mini, char *path, int *fds)
 			exit_process(mini, extern_argv, EXIT_FAILURE);
 		exit_process(mini, extern_argv, EXIT_SUCCESS);
 	}
-	wait_child_process(pid);
+	wait_child_process(pid); //부모프로세서는 자식을 기다린다.
 }

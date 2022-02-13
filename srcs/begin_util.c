@@ -1,5 +1,6 @@
 #include "../includes/minishell.h"
 
+//동적할당 된 2차원 배열을 모두 해제하는 함수
 void	free_char_array(char **array)
 {
 	int	i;
@@ -14,6 +15,7 @@ void	free_char_array(char **array)
 	free(array);
 }
 
+//링크드리스트의 메모리를 모두 해제하는 함수
 void	free_all_list(t_linked_order *order)
 {
 	t_linked_order		*tmp;
@@ -33,6 +35,7 @@ void	free_all_list(t_linked_order *order)
 	}
 }
 
+//문자열에 화이트 스페이스를 제외한 토큰 가능한 문자가 있는지 검사
 int	chk_line(char *line)
 {
 	int		i;
@@ -47,6 +50,7 @@ int	chk_line(char *line)
 	return (SUCCESS);
 }
 
+//현재 링크 메모리만 해제하는 함수
 void	free_linked_order(t_minishell *mini)
 {
 	t_linked_order		*next;
@@ -63,6 +67,7 @@ void	free_linked_order(t_minishell *mini)
 	mini->lo = next;
 }
 
+//아스키아트를 출력하는 함수
 void	ascii_art(void)
 {
 	int	random;
@@ -74,7 +79,7 @@ void	ascii_art(void)
 		───▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄───\n\
 		───█▒▒░░░░░░░░░▒▒█─── minishell\n\
 		────█░░█░░░░░█░░█──── made by\n\
-		─▄▄──█░░░▀█▀░░░█──▄▄─ jjeong seungyki\n\
+		─▄▄──█░░░▀█▀░░░█──▄▄─ jjeong\n\
 		█░░█─▀▄░░░░░░░▄▀─█░░█%s\n", SKY, WHITE);
 	}
 	else
@@ -82,7 +87,7 @@ void	ascii_art(void)
 		printf("%s\
 		──────▄▀▄─────▄▀▄	minishell\n\
 		─────▄█░░▀▀▀▀▀░░█▄	made by\n\
-		─▄▄──█░░░░░░░░░░░█──▄▄	jjeong seungyki\n\
+		─▄▄──█░░░░░░░░░░░█──▄▄	jjeong\n\
 		█▄▄█─█░░▀░░┬░░▀░░█─█▄▄█%s\n", SKY, WHITE);
 	}
 }

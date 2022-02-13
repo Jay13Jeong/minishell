@@ -53,6 +53,7 @@ typedef struct s_minishell
 	struct s_linked_order	*lo; //명령 링크드리스트
 }				t_minishell;
 
+//파싱 "$ "패치필요
 typedef struct s_gss //파싱용 구조체1
 {
 	int	cnt;

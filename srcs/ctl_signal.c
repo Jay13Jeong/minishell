@@ -45,3 +45,5 @@ void	init_signal(void)
 	signal(SIGINT, ctl_c);
 	signal(SIGQUIT, ctl_back_slash);
 }
+
+//getpid로 프로세스가 오름차순으로 꺼지는지 무작위로인지 확인 필요

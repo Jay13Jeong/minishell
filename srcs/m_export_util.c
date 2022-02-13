@@ -1,5 +1,6 @@
 #include "../includes/minishell.h"
 
+//환경변수 수정오류 처리 함수
 void	alert_export_error(char *cmd, char *key)
 {
 	ft_putstr_fd("minishell: ", STDOUT);
@@ -10,12 +11,13 @@ void	alert_export_error(char *cmd, char *key)
 	g_exit = 1;
 }
 
+//export의 기본동작 함수
 void	show_declare_x(t_minishell *mini, int fd_out)
 {
 	int	i;
 
 	i = 0;
-	while (i < mini->len)
+	while (i < mini->len) //환경변수 목록 출력
 	{
 		ft_putstr_fd("declare -x ", fd_out);
 		ft_putstr_fd(mini->key[i], fd_out);
@@ -25,6 +27,7 @@ void	show_declare_x(t_minishell *mini, int fd_out)
 	}
 }
 
+//key의 잘못된 문자를 검사하는 함수
 int	key_check_char(char c)
 {
 	if (ft_isalpha(c))
@@ -34,6 +37,7 @@ int	key_check_char(char c)
 	return (FAIL);
 }
 
+//eof변수의 문자까지 key문자열형식 검사 함수
 int	key_check_str(char *str, char eof)
 {
 	int	i;
@@ -50,6 +54,7 @@ int	key_check_str(char *str, char eof)
 	return (SUCCESS);
 }
 
+//동적할당 된 2차원 배열의 첫 index제외하고 모두 해제 함수
 void	free_trash(char **arr)
 {
 	int	i;
