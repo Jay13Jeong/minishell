@@ -16,6 +16,7 @@ int	check_redirect_target(t_token *token)
 	return (SUCCESS);
 }
 
+//왼쪽 리다이렉션기호가 작동가능한지 테스트해보고 업데이트하는 함수
 int	left_way_handler(t_minishell *mini, int i)
 {
 	int	oflag; //파일권한 번호
@@ -28,13 +29,14 @@ int	left_way_handler(t_minishell *mini, int i)
 	if (ft_strncmp("<", mini->lo->cmdline[i].cmd, 2) == 0) //리다이렉션 기호가 '<'일 때
 		test_fd = open(mini->lo->cmdline[i + 1].cmd, oflag, 0644);
 	else if (ft_strncmp("<<", mini->lo->cmdline[i].cmd, 3) == 0) //리다이렉션 기호가 '<<'일 때
-		test_fd = 1; //(<<기호 미완성 부분 : 다중 << 기호 미구현) 
-	if (test_fd < 1) //open이 안된다면 오류처리
+		test_fd = 0; //(<<기호 미완성 부분 : 다중 << 기호 미구현) 
+	if (test_fd < 0) //open이 안된다면 오류처리
 	{
 		alert_redirect_error(mini->lo->cmdline[i + 1].cmd, 1);
 		return (FAIL);
 	}
-	close(test_fd);
+	if (test_fd > 0)
+		close(test_fd);
 	mini->lo->redirect_filename[0] = mini->lo->cmdline[i].cmd; //좌 기호 업데이트
 	mini->lo->redirect_filename[1] = mini->lo->cmdline[i + 1].cmd; //좌 기호의 대상 업데이트
 	return (SUCCESS);
@@ -54,7 +56,7 @@ int	right_way_handler(t_minishell *mini, int i)
 		test_fd = open(mini->lo->cmdline[i + 1].cmd, oflag | O_TRUNC, 0644);
 	else if (ft_strncmp(">>", mini->lo->cmdline[i].cmd, 3) == 0) //리다이렉션 기호가 '>>'일 때
 		test_fd = open(mini->lo->cmdline[i + 1].cmd, oflag | O_APPEND, 0644);
-	if (test_fd < 1) //open 실패시 오류처리
+	if (test_fd < 0) //open 실패시 오류처리
 	{
 		alert_redirect_error(mini->lo->cmdline[i + 1].cmd, 1);
 		return (FAIL);
