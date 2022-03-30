@@ -4,7 +4,7 @@ my mini bash project
 <h1>How to use</h1>
 <h3>
 1. Enter the folder where you did clone in the terminal, and enter the "make" command.<br>
-2. Next, command the command "./minishell".<br>
+2. Next, enter the command "./minishell".<br>
 <br>
 Please refer to the following blog for instructions.<br>
   
