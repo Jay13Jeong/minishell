@@ -1,5 +1,5 @@
 # minishell-c
-my mini bash project
+linux bash clone coding project
 <hr>
 <h1>How to use</h1>
 <h3>
